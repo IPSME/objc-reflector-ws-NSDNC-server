@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #include <iostream>
 
+//----------------------------------------------------------------------------------------------------------------
+#pragma mark websocketpp
+
 // requires websocketpp header include
 // requires boost-1.76 header include
 
@@ -41,50 +44,129 @@ void on_message(server* s, websocketpp::connection_hdl hdl, message_ptr msg) {
 		return;
 	}
 	
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"UEENotification" object:nil userInfo:nil];
+
+	
 	try {
 		s->send(hdl, msg->get_payload(), msg->get_opcode());
-	} catch (websocketpp::exception const & e) {
+	}
+	catch (websocketpp::exception const & e) {
 		std::cout << "Echo failed because: "
 		<< "(" << e.what() << ")" << std::endl;
 	}
 }
 
-int main() {
-	// Create a server endpoint
-	server echo_server;
+//----------------------------------------------------------------------------------------------------------------
+#pragma mark Singleton
+
+@interface Singleton : NSObject {
+//	NSString *someProperty;
+}
+//@property (nonatomic, retain) NSString *someProperty;
+
++ (id) getSharedInstance;
+- (void) nop;
+@end
+
+//-------------
+
+@implementation Singleton
+//@synthesize someProperty;
+
++ (id) getSharedInstance
+{
+	static Singleton *_sharedInstance= nil;
 	
-	try {
-		// Set logging settings
-		echo_server.set_access_channels(websocketpp::log::alevel::all);
-		echo_server.clear_access_channels(websocketpp::log::alevel::frame_payload);
-		
-		// Initialize Asio
-		echo_server.init_asio();
-		
-		// Register our message handler
-		echo_server.set_message_handler(bind(&on_message,&echo_server,::_1,::_2));
-		
-		// Listen on port 8082
-		echo_server.listen(8082);
-		
-		// Start the server accept loop
-		echo_server.start_accept();
-		
-		// Start the ASIO io_service run loop
-		echo_server.run();
-	} catch (websocketpp::exception const & e) {
-		std::cout << e.what() << std::endl;
-	} catch (...) {
-		std::cout << "other exception" << std::endl;
-	}
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		_sharedInstance= [[self alloc] init];
+	});
+
+	return _sharedInstance;
 }
 
-/*
-int main(int argc, const char * argv[]) {
-	@autoreleasepool {
-	    // insert code here...
-	    NSLog(@"Hello, World!");
+- (id) init {
+	if (self = [super init])
+	{
+		[[NSDistributedNotificationCenter defaultCenter] addObserver:self
+															selector:@selector(recvd:)
+																name:@"UEENotification"
+															  object:nil];
 	}
+	return self;
+}
+
+- (void) dealloc {
+	// Should never be called, but just here for clarity really.
+}
+
+- (void) nop
+{
+}
+
+- (void) recvd:(NSNotification *)notification
+{
+	NSLog(@"recvd:(NSNotification *)notification");
+}
+
+@end
+
+//----------------------------------------------------------------------------------------------------------------
+#pragma mark main()
+
+int main(int argc, const char * argv[])
+{
+	@autoreleasepool
+	{
+		NSLog(@"Hello, World!");
+		
+		Singleton* _singleton= [Singleton getSharedInstance];
+		[_singleton nop];
+		
+		//-------------
+
+		// Create a server endpoint
+		server echo_server;
+		
+		try {
+			// Set logging settings
+			echo_server.set_access_channels(websocketpp::log::alevel::all);
+			echo_server.clear_access_channels(websocketpp::log::alevel::frame_payload);
+			
+			// Initialize Asio
+			echo_server.init_asio();
+			
+			// Register our message handler
+			echo_server.set_message_handler(bind(&on_message,&echo_server,::_1,::_2));
+			
+			// Listen on port 8082
+			echo_server.listen(8082);
+			
+			// Start the server accept loop
+			echo_server.start_accept();
+
+			NSLog(@"Running ...");
+	
+			while (true)
+			{
+				[[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:5]];
+
+				// Start the ASIO io_service run loop
+//				echo_server.run();
+				echo_server.poll();
+				
+//				NSLog(@".");
+			}
+		}
+		catch (websocketpp::exception const & e) {
+			std::cout << e.what() << std::endl;
+		}
+		catch (...) {
+			std::cout << "other exception" << std::endl;
+		}
+
+		NSLog(@"Exit!");
+	}
+	
 	return 0;
 }
-*/
