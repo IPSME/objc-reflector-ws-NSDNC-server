@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #include <iostream>
+#include <set>
+
+// TODO: How do I fix the "address is in use" error when trying to restart my server?
+// https://docs.websocketpp.org/faq.html
 
 //----------------------------------------------------------------------------------------------------------------
 #pragma mark websocketpp
@@ -22,38 +26,77 @@
 #include <websocketpp/server.hpp>
 #pragma clang diagnostic pop
 
-typedef websocketpp::server<websocketpp::config::asio> server;
-
+using websocketpp::connection_hdl;
 using websocketpp::lib::placeholders::_1;
 using websocketpp::lib::placeholders::_2;
 using websocketpp::lib::bind;
 
+// Create a server endpoint
+typedef websocketpp::server<websocketpp::config::asio> ws_server;
+ws_server g_ws_server;
+
+typedef std::set<connection_hdl,std::owner_less<connection_hdl>> connection_list;
+connection_list g_connection_list;
+
+
 // pull out the type of messages sent by our config
-typedef server::message_ptr message_ptr;
+typedef ws_server::message_ptr message_ptr;
+
+// Define a callback to handle connect
+void on_open(ws_server* server, websocketpp::connection_hdl hdl)
+{
+	std::cout << "on_open called with hdl: " << hdl.lock().get()	<< std::endl;
+	g_connection_list.insert(hdl);
+}
+
+// Define a callback to handle disconnect
+void on_close(ws_server* server, websocketpp::connection_hdl hdl)
+{
+	std::cout << "on_close called with hdl: " << hdl.lock().get()	<< std::endl;
+	g_connection_list.erase(hdl);
+}
 
 // Define a callback to handle incoming messages
-void on_message(server* s, websocketpp::connection_hdl hdl, message_ptr msg) {
-	std::cout << "on_message called with hdl: " << hdl.lock().get()
-	<< " and message: " << msg->get_payload()
-	<< std::endl;
+void on_message(ws_server* server, websocketpp::connection_hdl hdl, message_ptr msg)
+{
+	//	std::cout << "on_message called with hdl: " << hdl.lock().get()
+	//	<< " and message: " << msg->get_payload()
+	//	<< std::endl;
 	
+	/*
 	// check for a special command to instruct the server to stop listening so
 	// it can be cleanly exited.
 	if (msg->get_payload() == "stop-listening") {
-		s->stop_listening();
+		ws_server->stop_listening();
 		return;
 	}
+	*/
 	
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"UEENotification" object:nil userInfo:nil];
+	// https://www.cplusplus.com/reference/string/string/
+	// Note that this class handles bytes independently of the encoding used:
+	// If used to handle sequences of multi-byte or variable-length characters (such as UTF-8),
+	// all members of this class (such as length or size), as well as its iterators,
+	// will still operate in terms of bytes (not actual encoded characters).
+	std::string str_msg= msg->get_payload();
+	
+	NSError* err= nil;
+	NSDictionary *jsonDict= [NSJSONSerialization JSONObjectWithData:[NSData dataWithBytes:str_msg.c_str() length:str_msg.length()]
+															options:0
+															  error:&err];
 
+	// NSLog(@"%@", [jsonDict allKeys]);
+	if (!jsonDict) {
+		NSLog(@"DROP! ws_msg[%lu] isn't JSON.", str_msg.length());
+		return;
+	}
+		
+	NSString* nsstr_msg= [NSString stringWithCString:str_msg.c_str() encoding:NSUTF8StringEncoding];
+
+	//TODO: What encoding does nodejs use? should the code check for NSUTF16StringEncoding ?1
 	
-	try {
-		s->send(hdl, msg->get_payload(), msg->get_opcode());
-	}
-	catch (websocketpp::exception const & e) {
-		std::cout << "Echo failed because: "
-		<< "(" << e.what() << ")" << std::endl;
-	}
+	NSLog(@"ws -> me: %@", nsstr_msg);
+	
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"UEENotification" object:nsstr_msg userInfo:nil];
 }
 
 //----------------------------------------------------------------------------------------------------------------
@@ -104,9 +147,43 @@ void on_message(server* s, websocketpp::connection_hdl hdl, message_ptr msg) {
 {
 }
 
-- (void) recvd:(NSNotification *)notification
+- (void) recvd:(NSNotification *)nfy
 {
-	NSLog(@"recvd:(NSNotification *)notification");
+	NSAssert(NSOrderedSame == [nfy.name compare:@"UEENotification"], @"Are we only listening for UEENotifications or not?");
+	
+	//TODO: What encoding does objective-C use? should the code check for NSUTF16StringEncoding ?1
+
+	//TOOD: drop your own sent messages
+	
+	NSError* err= nil;
+	NSDictionary *jsonDict= [NSJSONSerialization JSONObjectWithData:[nfy.object dataUsingEncoding:NSUTF8StringEncoding]
+														    options:0
+															  error:&err];
+	
+	if (![nfy.object isKindOfClass:[NSString class]]) {
+		NSLog(@"DROP! notification.object isn't a NSString.");
+		return;
+	}
+	
+	// NSLog(@"%@", [jsonDict allKeys]);
+	if (!jsonDict) {
+		NSLog(@"DROP! notification.object[%lu] isn't JSON.", (unsigned long)((NSString*)nfy.object).length);
+		return;
+	}
+	
+	NSLog(@"ws <- me: %@", nfy.object);
+
+	std::string str_nfy_obj= [(NSString*)nfy.object cStringUsingEncoding:NSUTF8StringEncoding];
+	
+	try {
+		websocketpp::lib::error_code ec;
+
+		for (auto it : g_connection_list)
+			g_ws_server.send(it, str_nfy_obj.c_str(), websocketpp::frame::opcode::TEXT, ec);
+	}
+	catch (websocketpp::exception const & e) {
+		std::cout << "Echo failed because: " << "(" << e.what() << ")" << std::endl;
+	}
 }
 
 @end
@@ -125,25 +202,24 @@ int main(int argc, const char * argv[])
 		
 		//-------------
 
-		// Create a server endpoint
-		server echo_server;
-		
 		try {
 			// Set logging settings
-			echo_server.set_access_channels(websocketpp::log::alevel::all);
-			echo_server.clear_access_channels(websocketpp::log::alevel::frame_payload);
+			g_ws_server.set_access_channels(websocketpp::log::alevel::all);
+			g_ws_server.clear_access_channels(websocketpp::log::alevel::frame_payload);
 			
 			// Initialize Asio
-			echo_server.init_asio();
+			g_ws_server.init_asio();
 			
 			// Register our message handler
-			echo_server.set_message_handler(bind(&on_message,&echo_server,::_1,::_2));
-			
+			g_ws_server.set_open_handler( bind(&on_open,&g_ws_server,::_1) );
+			g_ws_server.set_close_handler( bind(&on_close,&g_ws_server,::_1) );
+			g_ws_server.set_message_handler( bind(&on_message,&g_ws_server,::_1,::_2) );
+
 			// Listen on port 8082
-			echo_server.listen(8082);
+			g_ws_server.listen(8082);
 			
 			// Start the server accept loop
-			echo_server.start_accept();
+			g_ws_server.start_accept();
 
 			NSLog(@"Running ...");
 	
@@ -152,10 +228,8 @@ int main(int argc, const char * argv[])
 				[[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:5]];
 
 				// Start the ASIO io_service run loop
-//				echo_server.run();
-				echo_server.poll();
-				
-//				NSLog(@".");
+//				g_ws_server.run();
+				g_ws_server.poll();
 			}
 		}
 		catch (websocketpp::exception const & e) {
