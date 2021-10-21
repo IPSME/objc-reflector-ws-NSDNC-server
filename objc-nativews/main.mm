@@ -17,7 +17,8 @@
 #pragma mark websocketpp
 
 // requires websocketpp header include
-// requires boost-1.76 header include
+// requires asio-1.20.0 header include
+#define ASIO_STANDALONE
 
 // https://stackoverflow.com/questions/31755210/how-to-suppress-header-file-warnings-from-an-xcode-project
 #pragma clang diagnostic push
