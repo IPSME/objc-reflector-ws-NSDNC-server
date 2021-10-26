@@ -7,8 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+
 #include <iostream>
 #include <set>
+
+NSString* NSSTR_ID= @"com.root-interface.objc-nativews";
 
 // TODO: How do I fix the "address is in use" error when trying to restart my server?
 // https://docs.websocketpp.org/faq.html
@@ -86,7 +89,7 @@ void on_message(ws_server* server, websocketpp::connection_hdl hdl, message_ptr 
 	
 	NSLog(@"ws -> me: %@", nsstr_msg);
 	
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:nsstr_msg object:nil userInfo:nil];
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:nsstr_msg object:NSSTR_ID userInfo:nil];
 }
 
 //----------------------------------------------------------------------------------------------------------------
@@ -139,6 +142,11 @@ void on_message(ws_server* server, websocketpp::connection_hdl hdl, message_ptr 
 
 - (void) recvd:(NSNotification *)nfy
 {
+	if (YES == [nfy.object isEqualToString:NSSTR_ID]) {
+		// NSLog(@"ricochet: DROPPED! %@", nfy.name);
+		return;
+	}
+	
 	//TODO: What encoding does objective-C use? should the code check for NSUTF16StringEncoding ?1
 
 	NSLog(@"ws <- me: %@", nfy.name);
