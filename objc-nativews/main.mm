@@ -97,7 +97,7 @@ void on_message(ws_server* server, websocketpp::connection_hdl hdl, message_ptr 
 	
 	NSLog(@"ws -> me: %@", nsstr_msg);
 	
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"UEENotification" object:nsstr_msg userInfo:nil];
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:nsstr_msg object:nil userInfo:nil];
 }
 
 //----------------------------------------------------------------------------------------------------------------
@@ -134,7 +134,7 @@ void on_message(ws_server* server, websocketpp::connection_hdl hdl, message_ptr 
 	{
 		[[NSDistributedNotificationCenter defaultCenter] addObserver:self
 															selector:@selector(recvd:)
-																name:@"UEENotification"
+																name:nil
 															  object:nil];
 	}
 	return self;
@@ -150,31 +150,24 @@ void on_message(ws_server* server, websocketpp::connection_hdl hdl, message_ptr 
 
 - (void) recvd:(NSNotification *)nfy
 {
-	NSAssert(NSOrderedSame == [nfy.name compare:@"UEENotification"], @"Are we only listening for UEENotifications or not?");
-	
 	//TODO: What encoding does objective-C use? should the code check for NSUTF16StringEncoding ?1
 
 	//TOOD: drop your own sent messages
 	
 	NSError* err= nil;
-	NSDictionary *jsonDict= [NSJSONSerialization JSONObjectWithData:[nfy.object dataUsingEncoding:NSUTF8StringEncoding]
+	NSDictionary *jsonDict= [NSJSONSerialization JSONObjectWithData:[nfy.name dataUsingEncoding:NSUTF8StringEncoding]
 														    options:0
 															  error:&err];
 	
-	if (![nfy.object isKindOfClass:[NSString class]]) {
-		NSLog(@"DROP! notification.object isn't a NSString.");
-		return;
-	}
-	
 	// NSLog(@"%@", [jsonDict allKeys]);
 	if (!jsonDict) {
-		NSLog(@"DROP! notification.object[%lu] isn't JSON.", (unsigned long)((NSString*)nfy.object).length);
+		NSLog(@"DROP! notification.name[%lu] isn't JSON.", (unsigned long)((NSString*)nfy.name).length);
 		return;
 	}
 	
-	NSLog(@"ws <- me: %@", nfy.object);
+	NSLog(@"ws <- me: %@", nfy.name);
 
-	std::string str_nfy_obj= [(NSString*)nfy.object cStringUsingEncoding:NSUTF8StringEncoding];
+	std::string str_nfy_obj= [(NSString*)nfy.name cStringUsingEncoding:NSUTF8StringEncoding];
 	
 	try {
 		websocketpp::lib::error_code ec;
