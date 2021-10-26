@@ -80,17 +80,6 @@ void on_message(ws_server* server, websocketpp::connection_hdl hdl, message_ptr 
 	// will still operate in terms of bytes (not actual encoded characters).
 	std::string str_msg= msg->get_payload();
 	
-	NSError* err= nil;
-	NSDictionary *jsonDict= [NSJSONSerialization JSONObjectWithData:[NSData dataWithBytes:str_msg.c_str() length:str_msg.length()]
-															options:0
-															  error:&err];
-
-	// NSLog(@"%@", [jsonDict allKeys]);
-	if (!jsonDict) {
-		NSLog(@"DROP! ws_msg[%lu] isn't JSON.", str_msg.length());
-		return;
-	}
-		
 	NSString* nsstr_msg= [NSString stringWithCString:str_msg.c_str() encoding:NSUTF8StringEncoding];
 
 	//TODO: What encoding does nodejs use? should the code check for NSUTF16StringEncoding ?1
@@ -152,19 +141,6 @@ void on_message(ws_server* server, websocketpp::connection_hdl hdl, message_ptr 
 {
 	//TODO: What encoding does objective-C use? should the code check for NSUTF16StringEncoding ?1
 
-	//TOOD: drop your own sent messages
-	
-	NSError* err= nil;
-	NSDictionary *jsonDict= [NSJSONSerialization JSONObjectWithData:[nfy.name dataUsingEncoding:NSUTF8StringEncoding]
-														    options:0
-															  error:&err];
-	
-	// NSLog(@"%@", [jsonDict allKeys]);
-	if (!jsonDict) {
-		NSLog(@"DROP! notification.name[%lu] isn't JSON.", (unsigned long)((NSString*)nfy.name).length);
-		return;
-	}
-	
 	NSLog(@"ws <- me: %@", nfy.name);
 
 	std::string str_nfy_obj= [(NSString*)nfy.name cStringUsingEncoding:NSUTF8StringEncoding];
