@@ -4,3 +4,6 @@
 [submodule "dedup-ricochet.git"]
 	path = dedup-ricochet.git
 	url = /Users/dev/repo/dedup-ricochet.bare.git
+[submodule "objc-msgenv-NSDNC.git"]
+	path = objc-msgenv-NSDNC.git
+	url = /Users/dev/repo/objc-msgenv-NSDNC.git
