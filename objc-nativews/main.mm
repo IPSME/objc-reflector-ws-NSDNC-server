@@ -7,17 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "msgenv_NSDNC.h"
 
 #include <iostream>
 #include <set>
 
-NSString* NSSTR_ID= @"com.root-interface.objc-nativews";
+NSUUID* g_uuid_ID= [NSUUID UUID];
 
 // TODO: How do I fix the "address is in use" error when trying to restart my server?
 // https://docs.websocketpp.org/faq.html
 
 //----------------------------------------------------------------------------------------------------------------
-#pragma mark websocketpp
+#pragma mark ws -> me
 
 // requires websocketpp header include
 // requires asio-1.20.0 header include
@@ -89,82 +90,40 @@ void on_message(ws_server* server, websocketpp::connection_hdl hdl, message_ptr 
 	
 	NSLog(@"ws -> me: %@", nsstr_msg);
 	
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:nsstr_msg object:NSSTR_ID userInfo:nil];
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:nsstr_msg object:g_uuid_ID.UUIDString userInfo:nil];
 }
 
 //----------------------------------------------------------------------------------------------------------------
-#pragma mark Singleton
+#pragma mark ws <- me
 
-@interface Singleton : NSObject {
-//	NSString *someProperty;
-}
-//@property (nonatomic, retain) NSString *someProperty;
-
-+ (id) getSharedInstance;
-- (void) nop;
-@end
-
-//-------------
-
-@implementation Singleton
-//@synthesize someProperty;
-
-+ (id) getSharedInstance
+void handler_(NSString* nsstr_msg, NSString* object)
 {
-	static Singleton *_sharedInstance= nil;
+	NSLog(@"handler_: %@", nsstr_msg);
 	
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		_sharedInstance= [[self alloc] init];
-	});
-
-	return _sharedInstance;
-}
-
-- (id) init {
-	if (self = [super init])
+	if (NULL != object)
 	{
-		[[NSDistributedNotificationCenter defaultCenter] addObserver:self
-															selector:@selector(recvd:)
-																name:nil
-															  object:nil];
-	}
-	return self;
-}
-
-- (void) dealloc {
-	// Should never be called, but just here for clarity really.
-}
-
-- (void) nop
-{
-}
-
-- (void) recvd:(NSNotification *)nfy
-{
-	if (YES == [nfy.object isEqualToString:NSSTR_ID]) {
-		// NSLog(@"ricochet: DROPPED! %@", nfy.name);
-		return;
+		if (YES == [object isEqualToString:g_uuid_ID.UUIDString]) {
+			NSLog(@"DROPPED! ricochet: %@", nsstr_msg);
+			return;
+		}
 	}
 	
 	//TODO: What encoding does objective-C use? should the code check for NSUTF16StringEncoding ?1
-
-	NSLog(@"ws <- me: %@", nfy.name);
-
-	std::string str_nfy_obj= [(NSString*)nfy.name cStringUsingEncoding:NSUTF8StringEncoding];
+	
+	NSLog(@"ws <- me: %@", nsstr_msg);
+	
+	std::string str_msg= [nsstr_msg cStringUsingEncoding:NSUTF8StringEncoding];
 	
 	try {
 		websocketpp::lib::error_code ec;
-
+		
 		for (auto it : g_connection_list)
-			g_ws_server.send(it, str_nfy_obj.c_str(), websocketpp::frame::opcode::TEXT, ec);
+			g_ws_server.send(it, str_msg.c_str(), websocketpp::frame::opcode::TEXT, ec);
 	}
 	catch (websocketpp::exception const & e) {
 		std::cout << "Echo failed because: " << "(" << e.what() << ")" << std::endl;
 	}
 }
-
-@end
 
 //----------------------------------------------------------------------------------------------------------------
 #pragma mark main()
@@ -173,11 +132,8 @@ int main(int argc, const char * argv[])
 {
 	@autoreleasepool
 	{
-		NSLog(@"Hello, World!");
-		
-		Singleton* _singleton= [Singleton getSharedInstance];
-		[_singleton nop];
-		
+		[MsgEnv_NSDNC subscribe:handler_];
+
 		//-------------
 
 		try {

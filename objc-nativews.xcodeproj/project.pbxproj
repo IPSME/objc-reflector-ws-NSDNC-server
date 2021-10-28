@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D7166DE82727E0A7000EB0F6 /* NSMutableArray+Queue.m in Sources */ = {isa = PBXBuildFile; fileRef = D7166DE62727E0A7000EB0F6 /* NSMutableArray+Queue.m */; };
+		D7166DFE272ACF15000EB0F6 /* msgenv_NSDNC.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7166DFD272ACF15000EB0F6 /* msgenv_NSDNC.mm */; };
 		D7B49FC0271D71C2002E6966 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7B49FBF271D71C2002E6966 /* main.mm */; };
 /* End PBXBuildFile section */
 
@@ -23,6 +25,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D7166DE62727E0A7000EB0F6 /* NSMutableArray+Queue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+Queue.m"; sourceTree = "<group>"; };
+		D7166DE72727E0A7000EB0F6 /* NSMutableArray+Queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+Queue.h"; sourceTree = "<group>"; };
+		D7166DFB272ACF15000EB0F6 /* msgenv_NSDNC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = msgenv_NSDNC.h; sourceTree = "<group>"; };
+		D7166DFD272ACF15000EB0F6 /* msgenv_NSDNC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = msgenv_NSDNC.mm; sourceTree = "<group>"; };
 		D7B49FBC271D71C2002E6966 /* objc-nativews */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "objc-nativews"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7B49FBF271D71C2002E6966 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -38,9 +44,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D7166DE52727E0A7000EB0F6 /* dedup-ricochet.git */ = {
+			isa = PBXGroup;
+			children = (
+				D7166DE62727E0A7000EB0F6 /* NSMutableArray+Queue.m */,
+				D7166DE72727E0A7000EB0F6 /* NSMutableArray+Queue.h */,
+			);
+			path = "dedup-ricochet.git";
+			sourceTree = "<group>";
+		};
+		D7166DFA272ACF15000EB0F6 /* objc-msgenv-NSDNC.git */ = {
+			isa = PBXGroup;
+			children = (
+				D7166DFB272ACF15000EB0F6 /* msgenv_NSDNC.h */,
+				D7166DFD272ACF15000EB0F6 /* msgenv_NSDNC.mm */,
+			);
+			path = "objc-msgenv-NSDNC.git";
+			sourceTree = "<group>";
+		};
 		D7B49FB3271D71C2002E6966 = {
 			isa = PBXGroup;
 			children = (
+				D7166DFA272ACF15000EB0F6 /* objc-msgenv-NSDNC.git */,
+				D7166DE52727E0A7000EB0F6 /* dedup-ricochet.git */,
 				D7B49FBE271D71C2002E6966 /* objc-nativews */,
 				D7B49FBD271D71C2002E6966 /* Products */,
 			);
@@ -119,6 +145,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D7B49FC0271D71C2002E6966 /* main.mm in Sources */,
+				D7166DFE272ACF15000EB0F6 /* msgenv_NSDNC.mm in Sources */,
+				D7166DE82727E0A7000EB0F6 /* NSMutableArray+Queue.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
