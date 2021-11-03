@@ -11,8 +11,11 @@
 
 #include <iostream>
 #include <set>
+#include "duplicate.h"
 
 NSUUID* g_uuid_ID= [NSUUID UUID];
+
+duplicate g_duplicate;
 
 // TODO: How do I fix the "address is in use" error when trying to restart my server?
 // https://docs.websocketpp.org/faq.html
@@ -84,11 +87,16 @@ void on_message(ws_server* server, websocketpp::connection_hdl hdl, message_ptr 
 	// will still operate in terms of bytes (not actual encoded characters).
 	std::string str_msg= msg->get_payload();
 	
+	if (true == g_duplicate.exists(str_msg)) {
+		// NSLog(@"on_message(message_ptr): ws ->| *DUP -- [%s]", str_msg.c_str());
+		return;
+	}
+	
 	NSString* nsstr_msg= [NSString stringWithCString:str_msg.c_str() encoding:NSUTF8StringEncoding];
 
 	//TODO: What encoding does nodejs use? should the code check for NSUTF16StringEncoding ?1
 	
-	NSLog(@"ws -> me: %@", nsstr_msg);
+	NSLog(@"on_message(message_ptr): ws -> me -- [%@]", nsstr_msg);
 	
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:nsstr_msg object:g_uuid_ID.UUIDString userInfo:nil];
 }
@@ -98,21 +106,23 @@ void on_message(ws_server* server, websocketpp::connection_hdl hdl, message_ptr 
 
 void handler_(NSString* nsstr_msg, NSString* object)
 {
-	NSLog(@"handler_: %@", nsstr_msg);
+	// NSLog(@"handler_: %@", nsstr_msg);
 	
 	if (NULL != object)
 	{
 		if (YES == [object isEqualToString:g_uuid_ID.UUIDString]) {
-			NSLog(@"DROPPED! ricochet: %@", nsstr_msg);
+			// NSLog(@"handler_(nsstr): *DUP |<- me -- [%@]", nsstr_msg);
 			return;
 		}
 	}
 	
 	//TODO: What encoding does objective-C use? should the code check for NSUTF16StringEncoding ?1
 	
-	NSLog(@"ws <- me: %@", nsstr_msg);
+	NSLog(@"handler_(nsstr): ws <- me -- [%@]", nsstr_msg);
 	
 	std::string str_msg= [nsstr_msg cStringUsingEncoding:NSUTF8StringEncoding];
+	
+	g_duplicate.cache(str_msg, t_entry_context(30s));
 	
 	try {
 		websocketpp::lib::error_code ec;
