@@ -4,3 +4,6 @@
 [submodule "objc-msgenv-NSDNC.git"]
 	path = objc-msgenv-NSDNC.git
 	url = /Users/dev/repo/objc-msgenv-NSDNC.git
+[submodule "dedup-msgcache.git"]
+	path = dedup-msgcache.git
+	url = /Users/dev/repo/dedup-msgcache.git
