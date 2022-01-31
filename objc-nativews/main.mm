@@ -21,7 +21,7 @@ duplicate g_duplicate;
 // https://docs.websocketpp.org/faq.html
 
 //----------------------------------------------------------------------------------------------------------------
-#pragma mark ws -> me
+#pragma mark ws -> nsdnc
 
 // requires websocketpp header include
 // requires asio-1.20.0 header include
@@ -96,13 +96,13 @@ void on_message(ws_server* server, websocketpp::connection_hdl hdl, message_ptr 
 
 	//TODO: What encoding does nodejs use? should the code check for NSUTF16StringEncoding ?1
 	
-	NSLog(@"on_message(message_ptr): ws -> me -- [%@]", nsstr_msg);
+	NSLog(@"on_message(message_ptr): ws -> nsdnc -- [%@]", nsstr_msg);
 	
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:nsstr_msg object:g_uuid_ID.UUIDString userInfo:nil];
 }
 
 //----------------------------------------------------------------------------------------------------------------
-#pragma mark ws <- me
+#pragma mark ws <- nsdnc
 
 void handler_(NSString* nsstr_msg, NSString* object)
 {
@@ -111,14 +111,14 @@ void handler_(NSString* nsstr_msg, NSString* object)
 	if (NULL != object)
 	{
 		if (YES == [object isEqualToString:g_uuid_ID.UUIDString]) {
-			// NSLog(@"handler_(nsstr): *DUP |<- me -- [%@]", nsstr_msg);
+			// NSLog(@"handler_(nsstr): *DUP |<- nsdnc -- [%@]", nsstr_msg);
 			return;
 		}
 	}
 	
 	//TODO: What encoding does objective-C use? should the code check for NSUTF16StringEncoding ?1
 	
-	NSLog(@"handler_(nsstr): ws <- me -- [%@]", nsstr_msg);
+	NSLog(@"handler_(nsstr): ws <- nsdnc -- [%@]", nsstr_msg);
 	
 	std::string str_msg= [nsstr_msg cStringUsingEncoding:NSUTF8StringEncoding];
 	
@@ -148,7 +148,7 @@ int main(int argc, const char * argv[])
 
 		try {
 			// Set logging settings
-			g_ws_server.set_access_channels(websocketpp::log::alevel::all);
+			g_ws_server.set_access_channels(websocketpp::log::alevel::none);
 			g_ws_server.clear_access_channels(websocketpp::log::alevel::frame_payload);
 			
 			// Initialize Asio
@@ -169,7 +169,7 @@ int main(int argc, const char * argv[])
 	
 			while (true)
 			{
-				[[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:5]];
+				[[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1]];
 
 				// Start the ASIO io_service run loop
 //				g_ws_server.run();
