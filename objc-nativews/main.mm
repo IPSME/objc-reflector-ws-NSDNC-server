@@ -142,7 +142,7 @@ int main(int argc, const char * argv[])
 {
 	@autoreleasepool
 	{
-		[MsgEnv_NSDNC subscribe:handler_];
+		[IPSME_MsgEnv subscribe:handler_];
 
 		//-------------
 
