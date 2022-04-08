@@ -98,7 +98,7 @@ void on_message(ws_server* server, websocketpp::connection_hdl hdl, message_ptr 
 	
 	NSLog(@"on_message(message_ptr): ws -> nsdnc -- [%@]", nsstr_msg);
 	
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:nsstr_msg object:g_uuid_ID.UUIDString userInfo:nil];
+	[IPSME_MsgEnv publish:nsstr_msg withObject:g_uuid_ID.UUIDString];
 }
 
 //----------------------------------------------------------------------------------------------------------------
@@ -111,14 +111,15 @@ void handler_(NSString* nsstr_msg, NSString* object)
 	if (NULL != object)
 	{
 		if (YES == [object isEqualToString:g_uuid_ID.UUIDString]) {
-			// NSLog(@"handler_(nsstr): *DUP |<- nsdnc -- [%@]", nsstr_msg);
-			return;
+			NSLog(@"handler_(nsstr): *DUP |<- nsdnc -- [%@]", nsstr_msg);
+			
+			// it's a duplicate, but drop it, it needs to reflect to other websockets
+			//return;
 		}
 	}
-	
+	else NSLog(@"handler_(nsstr): ws <- nsdnc -- [%@]", nsstr_msg);
+
 	//TODO: What encoding does objective-C use? should the code check for NSUTF16StringEncoding ?1
-	
-	NSLog(@"handler_(nsstr): ws <- nsdnc -- [%@]", nsstr_msg);
 	
 	std::string str_msg= [nsstr_msg cStringUsingEncoding:NSUTF8StringEncoding];
 	
