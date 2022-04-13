@@ -108,14 +108,12 @@ void handler_(NSString* nsstr_msg, NSString* object)
 {
 	// NSLog(@"handler_: %@", nsstr_msg);
 	
-	if (NULL != object)
+	if ((NULL != object) && (YES == [object isEqualToString:g_uuid_ID.UUIDString]) )
 	{
-		if (YES == [object isEqualToString:g_uuid_ID.UUIDString]) {
-			NSLog(@"handler_(nsstr): *DUP |<- nsdnc -- [%@]", nsstr_msg);
+		NSLog(@"handler_(nsstr): *DUP |<- nsdnc -- [%@]", nsstr_msg);
 			
-			// it's a duplicate, but drop it, it needs to reflect to other websockets
-			//return;
-		}
+		// it's a duplicate, but drop it, it needs to reflect to other websockets
+		//return;
 	}
 	else NSLog(@"handler_(nsstr): ws <- nsdnc -- [%@]", nsstr_msg);
 
