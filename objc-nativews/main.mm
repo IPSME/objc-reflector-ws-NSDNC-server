@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "msgenv_NSDNC.h"
+#import "IPSME_MsgEnv.h"
 
 #include <iostream>
 #include <set>

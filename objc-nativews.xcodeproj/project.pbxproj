@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D7166DFE272ACF15000EB0F6 /* msgenv_NSDNC.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7166DFD272ACF15000EB0F6 /* msgenv_NSDNC.mm */; };
 		D7166E0927328A0F000EB0F6 /* duplicate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7166E0827328A0F000EB0F6 /* duplicate.cpp */; };
 		D7B49FC0271D71C2002E6966 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7B49FBF271D71C2002E6966 /* main.mm */; };
+		D7D7387328795365006B28E6 /* IPSME_MsgEnv.m in Sources */ = {isa = PBXBuildFile; fileRef = D7D7387228795365006B28E6 /* IPSME_MsgEnv.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,12 +25,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		D7166DFB272ACF15000EB0F6 /* msgenv_NSDNC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = msgenv_NSDNC.h; sourceTree = "<group>"; };
-		D7166DFD272ACF15000EB0F6 /* msgenv_NSDNC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = msgenv_NSDNC.mm; sourceTree = "<group>"; };
 		D7166E0727328A0F000EB0F6 /* duplicate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = duplicate.h; sourceTree = "<group>"; };
 		D7166E0827328A0F000EB0F6 /* duplicate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = duplicate.cpp; sourceTree = "<group>"; };
 		D7B49FBC271D71C2002E6966 /* objc-nativews */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "objc-nativews"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7B49FBF271D71C2002E6966 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
+		D7D7387128795365006B28E6 /* IPSME_MsgEnv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPSME_MsgEnv.h; sourceTree = "<group>"; };
+		D7D7387228795365006B28E6 /* IPSME_MsgEnv.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPSME_MsgEnv.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,8 +47,8 @@
 		D7166DFA272ACF15000EB0F6 /* objc-msgenv-NSDNC.git */ = {
 			isa = PBXGroup;
 			children = (
-				D7166DFB272ACF15000EB0F6 /* msgenv_NSDNC.h */,
-				D7166DFD272ACF15000EB0F6 /* msgenv_NSDNC.mm */,
+				D7D7387128795365006B28E6 /* IPSME_MsgEnv.h */,
+				D7D7387228795365006B28E6 /* IPSME_MsgEnv.m */,
 			);
 			path = "objc-msgenv-NSDNC.git";
 			sourceTree = "<group>";
@@ -144,8 +144,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7D7387328795365006B28E6 /* IPSME_MsgEnv.m in Sources */,
 				D7B49FC0271D71C2002E6966 /* main.mm in Sources */,
-				D7166DFE272ACF15000EB0F6 /* msgenv_NSDNC.mm in Sources */,
 				D7166E0927328A0F000EB0F6 /* duplicate.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
