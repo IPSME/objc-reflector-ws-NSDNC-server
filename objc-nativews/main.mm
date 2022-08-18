@@ -11,7 +11,7 @@
 
 #include <iostream>
 #include <set>
-#include "duplicate.h"
+#include "msg_cache-dedup.h"
 
 NSUUID* g_uuid_ID= [NSUUID UUID];
 

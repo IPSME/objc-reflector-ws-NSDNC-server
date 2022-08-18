@@ -1,3 +1,9 @@
 [submodule "websocketpp"]
 	path = websocketpp
 	url = https://github.com/zaphoyd/websocketpp.git
+[submodule "objc-msgenv-NSDNC.git"]
+	path = objc-msgenv-NSDNC.git
+	url = git@github.com:IPSME/objc-msgenv-NSDNC.git
+[submodule "cpp-msg_cache-dedup.git"]
+	path = cpp-msg_cache-dedup.git
+	url = git@github.com:knev/cpp-msg_cache-dedup.git

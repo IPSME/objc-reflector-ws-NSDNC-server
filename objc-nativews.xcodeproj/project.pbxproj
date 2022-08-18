@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D7166E0927328A0F000EB0F6 /* duplicate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7166E0827328A0F000EB0F6 /* duplicate.cpp */; };
+		D76C6EDD28AED42400742151 /* IPSME_MsgEnv.m in Sources */ = {isa = PBXBuildFile; fileRef = D76C6EDA28AED42400742151 /* IPSME_MsgEnv.m */; };
+		D76C6EE128AED71500742151 /* msg_cache-dedup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D76C6EE028AED71500742151 /* msg_cache-dedup.cpp */; };
 		D7B49FC0271D71C2002E6966 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7B49FBF271D71C2002E6966 /* main.mm */; };
-		D7D7387328795365006B28E6 /* IPSME_MsgEnv.m in Sources */ = {isa = PBXBuildFile; fileRef = D7D7387228795365006B28E6 /* IPSME_MsgEnv.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,12 +25,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		D7166E0727328A0F000EB0F6 /* duplicate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = duplicate.h; sourceTree = "<group>"; };
-		D7166E0827328A0F000EB0F6 /* duplicate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = duplicate.cpp; sourceTree = "<group>"; };
+		D76C6EDA28AED42400742151 /* IPSME_MsgEnv.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPSME_MsgEnv.m; sourceTree = "<group>"; };
+		D76C6EDC28AED42400742151 /* IPSME_MsgEnv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPSME_MsgEnv.h; sourceTree = "<group>"; };
+		D76C6EDF28AED71500742151 /* msg_cache-dedup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "msg_cache-dedup.h"; sourceTree = "<group>"; };
+		D76C6EE028AED71500742151 /* msg_cache-dedup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "msg_cache-dedup.cpp"; sourceTree = "<group>"; };
 		D7B49FBC271D71C2002E6966 /* objc-nativews */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "objc-nativews"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7B49FBF271D71C2002E6966 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
-		D7D7387128795365006B28E6 /* IPSME_MsgEnv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPSME_MsgEnv.h; sourceTree = "<group>"; };
-		D7D7387228795365006B28E6 /* IPSME_MsgEnv.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPSME_MsgEnv.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,29 +44,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D7166DFA272ACF15000EB0F6 /* objc-msgenv-NSDNC.git */ = {
+		D76C6ED928AED42400742151 /* objc-msgenv-NSDNC.git */ = {
 			isa = PBXGroup;
 			children = (
-				D7D7387128795365006B28E6 /* IPSME_MsgEnv.h */,
-				D7D7387228795365006B28E6 /* IPSME_MsgEnv.m */,
+				D76C6EDA28AED42400742151 /* IPSME_MsgEnv.m */,
+				D76C6EDC28AED42400742151 /* IPSME_MsgEnv.h */,
 			);
 			path = "objc-msgenv-NSDNC.git";
 			sourceTree = "<group>";
 		};
-		D7166E0627328A0F000EB0F6 /* dedup-msgcache.git */ = {
+		D76C6EDE28AED71500742151 /* cpp-msg_cache-dedup.git */ = {
 			isa = PBXGroup;
 			children = (
-				D7166E0727328A0F000EB0F6 /* duplicate.h */,
-				D7166E0827328A0F000EB0F6 /* duplicate.cpp */,
+				D76C6EDF28AED71500742151 /* msg_cache-dedup.h */,
+				D76C6EE028AED71500742151 /* msg_cache-dedup.cpp */,
 			);
-			path = "dedup-msgcache.git";
+			path = "cpp-msg_cache-dedup.git";
 			sourceTree = "<group>";
 		};
 		D7B49FB3271D71C2002E6966 = {
 			isa = PBXGroup;
 			children = (
-				D7166E0627328A0F000EB0F6 /* dedup-msgcache.git */,
-				D7166DFA272ACF15000EB0F6 /* objc-msgenv-NSDNC.git */,
+				D76C6EDE28AED71500742151 /* cpp-msg_cache-dedup.git */,
+				D76C6ED928AED42400742151 /* objc-msgenv-NSDNC.git */,
 				D7B49FBE271D71C2002E6966 /* objc-nativews */,
 				D7B49FBD271D71C2002E6966 /* Products */,
 			);
@@ -114,7 +114,7 @@
 		D7B49FB4271D71C2002E6966 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1030;
+				LastUpgradeCheck = 1340;
 				ORGANIZATIONNAME = "Root Interface";
 				TargetAttributes = {
 					D7B49FBB271D71C2002E6966 = {
@@ -128,6 +128,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = D7B49FB3271D71C2002E6966;
 			productRefGroup = D7B49FBD271D71C2002E6966 /* Products */;
@@ -144,9 +145,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D7D7387328795365006B28E6 /* IPSME_MsgEnv.m in Sources */,
+				D76C6EDD28AED42400742151 /* IPSME_MsgEnv.m in Sources */,
+				D76C6EE128AED71500742151 /* msg_cache-dedup.cpp in Sources */,
 				D7B49FC0271D71C2002E6966 /* main.mm in Sources */,
-				D7166E0927328A0F000EB0F6 /* duplicate.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -179,6 +180,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -242,6 +244,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -275,6 +278,7 @@
 		D7B49FC4271D71C2002E6966 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -283,6 +287,7 @@
 		D7B49FC5271D71C2002E6966 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
