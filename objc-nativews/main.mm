@@ -158,6 +158,8 @@ int main(int argc, const char * argv[])
 
 		//-------------
 
+		int i_port= 8082;
+		
 		try {
 			// Set logging settings
 			g_ws_server.set_access_channels(websocketpp::log::alevel::none);
@@ -172,12 +174,12 @@ int main(int argc, const char * argv[])
 			g_ws_server.set_message_handler( bind(&on_message,&g_ws_server,::_1,::_2) );
 
 			// Listen on port 8082
-			g_ws_server.listen(8082);
+			g_ws_server.listen(i_port);
 			
 			// Start the server accept loop
 			g_ws_server.start_accept();
 
-			NSLog(@"Running ...");
+			NSLog(@"Running on [%d] ...", i_port);
 	
 			while (true)
 			{
