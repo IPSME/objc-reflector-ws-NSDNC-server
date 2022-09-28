@@ -104,18 +104,18 @@ void on_message(ws_server* server, websocketpp::connection_hdl hdl, message_ptr 
 //----------------------------------------------------------------------------------------------------------------
 #pragma mark ws <- nsdnc
 
-void handler_(NSString* nsstr_msg, NSString* object)
+bool handler_NSString(NSString* nsstr_msg, NSString* object)
 {
 	// NSLog(@"handler_: %@", nsstr_msg);
 	
 	if ((NULL != object) && (YES == [object isEqualToString:g_uuid_ID.UUIDString]) )
 	{
-		NSLog(@"handler_(nsstr): *DUP |<- nsdnc -- [%@]", nsstr_msg);
+		NSLog(@"handler_NSString: *DUP |<- nsdnc -- [%@]", nsstr_msg);
 			
 		// it's a duplicate, but drop it, it needs to reflect to other websockets
 		//return;
 	}
-	else NSLog(@"handler_(nsstr): ws <- nsdnc -- [%@]", nsstr_msg);
+	else NSLog(@"handler_NSString: ws <- nsdnc -- [%@]", nsstr_msg);
 
 	//TODO: What encoding does objective-C use? should the code check for NSUTF16StringEncoding ?1
 	
@@ -128,10 +128,23 @@ void handler_(NSString* nsstr_msg, NSString* object)
 		
 		for (auto it : g_connection_list)
 			g_ws_server.send(it, str_msg.c_str(), websocketpp::frame::opcode::TEXT, ec);
+		
+		return true;
 	}
 	catch (websocketpp::exception const & e) {
-		std::cout << "Echo failed because: " << "(" << e.what() << ")" << std::endl;
+		std::cout << "handler_NSString: Echo failed because: " << "(" << e.what() << ")" << std::endl;
+
+		return false;
 	}
+}
+
+void handler_(id id_msg, NSString* object)
+{
+	if ([id_msg isKindOfClass:[NSString class]] && handler_NSString(id_msg, object))
+		return;
+	
+	// drop silently ...
+	NSLog(@"handler_: DROP! |<- nsdnc -- [%@]", [id_msg class]);
 }
 
 //----------------------------------------------------------------------------------------------------------------
