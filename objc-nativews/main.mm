@@ -15,9 +15,6 @@
 
 NSUUID* g_uuid_ID= [NSUUID UUID];
 
-
-// TODO: How do I fix the "address is in use" error when trying to restart my server?
-// https://docs.websocketpp.org/faq.html
 typedef duplicate t_duplicate;
 t_duplicate g_duplicate;
 
@@ -151,8 +148,62 @@ void handler_(id id_msg, NSString* object)
 //----------------------------------------------------------------------------------------------------------------
 #pragma mark main()
 
+bool gb_quit_= false;
+
+void handler_sigint_(int s)
+{
+	printf("\nCaught SIG[%d]\n", s);
+
+	// if the user presses ^C twice, then just exit.
+	if (gb_quit_)
+		exit(s);
+	
+	gb_quit_= true;
+
+	// TODO: How do I fix the "address is in use" error when trying to restart my server? SO_REUSEADDR?
+	// https://docs.websocketpp.org/faq.html | How do I cleanly exit an Asio transport based program
+	// https://groups.google.com/g/websocketpp/c/rvBcIJ940Bc
+	// 		An easy fix for this is to separate the socket from the connection object.
+	//		In doing so you can maintain a concrete instance of the socket defer creation of the connection
+	//		until the handle_accept is executed. At which time you can pass the socket of to the new connection.
+	//		What this allows you to do then is explicitly close the socket when stop_listening() is called
+	//		along with telling the acceptor to close.
+	
+	g_ws_server_.stop_listening();
+	for (auto it : g_connection_list) {
+		try {
+			// https://github.com/zaphoyd/websocketpp/issues/545
+			// needed ?
+			// g_ws_server_.pause_reading(it);
+
+			g_ws_server_.close(it, websocketpp::close::status::normal, "");
+		}
+		catch (websocketpp::lib::error_code ec) {
+			std::cout << "lib::error_code " << ec << std::endl;
+		}
+	}
+	
+	// we don't have to stop it manually, it will stop when we stop listening
+	// g_ws_server_.stop();
+
+	// don't force an exit here, wait for a proper exit from the run loop; io_service.stopped()
+	// exit(s);
+}
+
 int main(int argc, const char * argv[])
 {
+	// -----
+	// https://stackoverflow.com/questions/1641182/how-can-i-catch-a-ctrl-c-event
+	struct sigaction sa;
+
+	sa.sa_handler = handler_sigint_;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+
+	sigaction(SIGINT, &sa, NULL);
+	
+	// -----
+	
 	@autoreleasepool
 	{
 		[IPSME_MsgEnv subscribe:handler_];
@@ -182,7 +233,7 @@ int main(int argc, const char * argv[])
 
 			NSLog(@"Running on [%d] ...", i_port);
 	
-			while (true)
+			while (!gb_quit_ && !g_ws_server_.stopped())
 			{
 				[[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1]];
 
