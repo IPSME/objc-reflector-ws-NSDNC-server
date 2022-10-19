@@ -15,10 +15,11 @@
 
 NSUUID* g_uuid_ID= [NSUUID UUID];
 
-duplicate g_duplicate;
 
 // TODO: How do I fix the "address is in use" error when trying to restart my server?
 // https://docs.websocketpp.org/faq.html
+typedef duplicate t_duplicate;
+t_duplicate g_duplicate;
 
 //----------------------------------------------------------------------------------------------------------------
 #pragma mark ws -> nsdnc
@@ -34,38 +35,38 @@ duplicate g_duplicate;
 #include <websocketpp/server.hpp>
 #pragma clang diagnostic pop
 
-using websocketpp::connection_hdl;
+typedef websocketpp::connection_hdl t_connection_hdl;
+//using websocketpp::connection_hdl;
 using websocketpp::lib::placeholders::_1;
 using websocketpp::lib::placeholders::_2;
 using websocketpp::lib::bind;
 
 // Create a server endpoint
-typedef websocketpp::server<websocketpp::config::asio> ws_server;
-ws_server g_ws_server;
+typedef websocketpp::server<websocketpp::config::asio> t_ws_server;
+t_ws_server g_ws_server_;
 
-typedef std::set<connection_hdl,std::owner_less<connection_hdl>> connection_list;
-connection_list g_connection_list;
-
+typedef std::set<t_connection_hdl,std::owner_less<t_connection_hdl>> t_connection_list;
+t_connection_list g_connection_list;
 
 // pull out the type of messages sent by our config
-typedef ws_server::message_ptr message_ptr;
+typedef t_ws_server::message_ptr t_message_ptr;
 
 // Define a callback to handle connect
-void on_open(ws_server* server, websocketpp::connection_hdl hdl)
+void on_open(t_ws_server* server, t_connection_hdl hdl)
 {
 	std::cout << "on_open called with hdl: " << hdl.lock().get()	<< std::endl;
 	g_connection_list.insert(hdl);
 }
 
 // Define a callback to handle disconnect
-void on_close(ws_server* server, websocketpp::connection_hdl hdl)
+void on_close(t_ws_server* server, t_connection_hdl hdl)
 {
 	std::cout << "on_close called with hdl: " << hdl.lock().get()	<< std::endl;
 	g_connection_list.erase(hdl);
 }
 
 // Define a callback to handle incoming messages
-void on_message(ws_server* server, websocketpp::connection_hdl hdl, message_ptr msg)
+void on_message(t_ws_server* server, t_connection_hdl hdl, t_message_ptr msg)
 {
 	//	std::cout << "on_message called with hdl: " << hdl.lock().get()
 	//	<< " and message: " << msg->get_payload()
@@ -127,7 +128,7 @@ bool handler_NSString(NSString* nsstr_msg, NSString* object)
 		websocketpp::lib::error_code ec;
 		
 		for (auto it : g_connection_list)
-			g_ws_server.send(it, str_msg.c_str(), websocketpp::frame::opcode::TEXT, ec);
+			g_ws_server_.send(it, str_msg.c_str(), websocketpp::frame::opcode::TEXT, ec);
 		
 		return true;
 	}
@@ -162,22 +163,22 @@ int main(int argc, const char * argv[])
 		
 		try {
 			// Set logging settings
-			g_ws_server.set_access_channels(websocketpp::log::alevel::none);
-			g_ws_server.clear_access_channels(websocketpp::log::alevel::frame_payload);
+			g_ws_server_.set_access_channels(websocketpp::log::alevel::none);
+			g_ws_server_.clear_access_channels(websocketpp::log::alevel::frame_payload);
 			
 			// Initialize Asio
-			g_ws_server.init_asio();
+			g_ws_server_.init_asio();
 			
 			// Register our message handler
-			g_ws_server.set_open_handler( bind(&on_open,&g_ws_server,::_1) );
-			g_ws_server.set_close_handler( bind(&on_close,&g_ws_server,::_1) );
-			g_ws_server.set_message_handler( bind(&on_message,&g_ws_server,::_1,::_2) );
+			g_ws_server_.set_open_handler( bind(&on_open,&g_ws_server_,::_1) );
+			g_ws_server_.set_close_handler( bind(&on_close,&g_ws_server_,::_1) );
+			g_ws_server_.set_message_handler( bind(&on_message,&g_ws_server_,::_1,::_2) );
 
 			// Listen on port 8082
-			g_ws_server.listen(i_port);
+			g_ws_server_.listen(i_port);
 			
 			// Start the server accept loop
-			g_ws_server.start_accept();
+			g_ws_server_.start_accept();
 
 			NSLog(@"Running on [%d] ...", i_port);
 	
@@ -185,9 +186,8 @@ int main(int argc, const char * argv[])
 			{
 				[[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1]];
 
-				// Start the ASIO io_service run loop
-//				g_ws_server.run();
-				g_ws_server.poll();
+				// g_ws_server_.run(); // start the ASIO io_service run loop
+				g_ws_server_.poll();
 			}
 		}
 		catch (websocketpp::exception const & e) {
