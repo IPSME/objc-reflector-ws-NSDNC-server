@@ -13,8 +13,6 @@
 #include <set>
 #include "msg_cache-dedup.h"
 
-NSUUID* g_uuid_ID= [NSUUID UUID];
-
 typedef duplicate t_duplicate;
 t_duplicate g_duplicate;
 
@@ -96,7 +94,8 @@ void on_message(t_ws_server* server, t_connection_hdl hdl, t_message_ptr msg)
 	
 	NSLog(@"on_message(message_ptr): ws -> nsdnc -- [%@]", nsstr_msg);
 	
-	[IPSME_MsgEnv publish:nsstr_msg withObject:g_uuid_ID.UUIDString];
+	// [IPSME_MsgEnv publish:nsstr_msg withObject:g_uuid_ID.UUIDString];
+	[IPSME_MsgEnv publish:nsstr_msg];
 }
 
 //----------------------------------------------------------------------------------------------------------------
@@ -106,21 +105,20 @@ bool handler_NSString(NSString* nsstr_msg, NSString* object)
 {
 	// NSLog(@"handler_: %@", nsstr_msg);
 	
-	if ((NULL != object) && (YES == [object isEqualToString:g_uuid_ID.UUIDString]) )
-	{
-		NSLog(@"handler_NSString: *DUP |<- nsdnc -- [%@]", nsstr_msg);
-			
-		// it's a duplicate, but don't drop it, it needs to reflect to other websockets
-		//return;
-	}
-	else NSLog(@"handler_NSString: ws <- nsdnc -- [%@]", nsstr_msg);
-
+	// one way doors are only present when publishing messages out to clients
+	//	if ((NULL != object) && (YES == [object isEqualToString:g_uuid_ID.UUIDString]) ) {
+	//		NSLog(@"handler_NSString: *DUP |<- nsdnc -- [%@]", nsstr_msg);
+	//		return false;
+	//	}
+	
 	//TODO: What encoding does objective-C use? should the code check for NSUTF16StringEncoding ?1
 	
 	std::string str_msg= [nsstr_msg cStringUsingEncoding:NSUTF8StringEncoding];
 	
 	g_duplicate.cache(str_msg, t_entry_context(30s));
 	
+	NSLog(@"handler_NSString: ws <- nsdnc -- [%@]", nsstr_msg);
+
 	try {
 		websocketpp::lib::error_code ec;
 		
