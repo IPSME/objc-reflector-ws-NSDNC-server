@@ -3,17 +3,17 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D76C6EDD28AED42400742151 /* IPSME_MsgEnv.m in Sources */ = {isa = PBXBuildFile; fileRef = D76C6EDA28AED42400742151 /* IPSME_MsgEnv.m */; };
-		D76C6EE128AED71500742151 /* msg_cache-dedup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D76C6EE028AED71500742151 /* msg_cache-dedup.cpp */; };
-		D7B49FC0271D71C2002E6966 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7B49FBF271D71C2002E6966 /* main.mm */; };
+		D7E8FF4D2987CE150026BA76 /* IPSME_MsgEnv.m in Sources */ = {isa = PBXBuildFile; fileRef = D7E8FF4A2987CE150026BA76 /* IPSME_MsgEnv.m */; };
+		D7E8FF512987CFBA0026BA76 /* msg_cache-dedup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7E8FF502987CFBA0026BA76 /* msg_cache-dedup.cpp */; };
+		D7E8FF532987CFE90026BA76 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7E8FF522987CFE90026BA76 /* main.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		D7B49FBA271D71C2002E6966 /* CopyFiles */ = {
+		D7E8FF3C2987CC680026BA76 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -25,16 +25,16 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		D76C6EDA28AED42400742151 /* IPSME_MsgEnv.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPSME_MsgEnv.m; sourceTree = "<group>"; };
-		D76C6EDC28AED42400742151 /* IPSME_MsgEnv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPSME_MsgEnv.h; sourceTree = "<group>"; };
-		D76C6EDF28AED71500742151 /* msg_cache-dedup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "msg_cache-dedup.h"; sourceTree = "<group>"; };
-		D76C6EE028AED71500742151 /* msg_cache-dedup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "msg_cache-dedup.cpp"; sourceTree = "<group>"; };
-		D7B49FBC271D71C2002E6966 /* objc-nativews */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "objc-nativews"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D7B49FBF271D71C2002E6966 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
+		D7E8FF3E2987CC680026BA76 /* objc-reflector-ws-mac */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "objc-reflector-ws-mac"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D7E8FF4A2987CE150026BA76 /* IPSME_MsgEnv.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPSME_MsgEnv.m; sourceTree = "<group>"; };
+		D7E8FF4C2987CE150026BA76 /* IPSME_MsgEnv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPSME_MsgEnv.h; sourceTree = "<group>"; };
+		D7E8FF4F2987CFBA0026BA76 /* msg_cache-dedup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "msg_cache-dedup.h"; sourceTree = "<group>"; };
+		D7E8FF502987CFBA0026BA76 /* msg_cache-dedup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "msg_cache-dedup.cpp"; sourceTree = "<group>"; };
+		D7E8FF522987CFE90026BA76 /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		D7B49FB9271D71C2002E6966 /* Frameworks */ = {
+		D7E8FF3B2987CC680026BA76 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -44,124 +44,117 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D76C6ED928AED42400742151 /* objc-msgenv-NSDNC.git */ = {
+		D7E8FF352987CC680026BA76 = {
 			isa = PBXGroup;
 			children = (
-				D76C6EDA28AED42400742151 /* IPSME_MsgEnv.m */,
-				D76C6EDC28AED42400742151 /* IPSME_MsgEnv.h */,
-			);
-			path = "objc-msgenv-NSDNC.git";
-			sourceTree = "<group>";
-		};
-		D76C6EDE28AED71500742151 /* cpp-msg_cache-dedup.git */ = {
-			isa = PBXGroup;
-			children = (
-				D76C6EDF28AED71500742151 /* msg_cache-dedup.h */,
-				D76C6EE028AED71500742151 /* msg_cache-dedup.cpp */,
-			);
-			path = "cpp-msg_cache-dedup.git";
-			sourceTree = "<group>";
-		};
-		D7B49FB3271D71C2002E6966 = {
-			isa = PBXGroup;
-			children = (
-				D76C6EDE28AED71500742151 /* cpp-msg_cache-dedup.git */,
-				D76C6ED928AED42400742151 /* objc-msgenv-NSDNC.git */,
-				D7B49FBE271D71C2002E6966 /* objc-nativews */,
-				D7B49FBD271D71C2002E6966 /* Products */,
+				D7E8FF4E2987CFBA0026BA76 /* cpp-msg_cache-dedup.git */,
+				D7E8FF482987CE150026BA76 /* objc-msgenv-NSDNC.git */,
+				D7E8FF402987CC680026BA76 /* objc-reflector-ws-mac */,
+				D7E8FF3F2987CC680026BA76 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		D7B49FBD271D71C2002E6966 /* Products */ = {
+		D7E8FF3F2987CC680026BA76 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D7B49FBC271D71C2002E6966 /* objc-nativews */,
+				D7E8FF3E2987CC680026BA76 /* objc-reflector-ws-mac */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D7B49FBE271D71C2002E6966 /* objc-nativews */ = {
+		D7E8FF402987CC680026BA76 /* objc-reflector-ws-mac */ = {
 			isa = PBXGroup;
 			children = (
-				D7B49FBF271D71C2002E6966 /* main.mm */,
+				D7E8FF522987CFE90026BA76 /* main.mm */,
 			);
-			path = "objc-nativews";
+			path = "objc-reflector-ws-mac";
+			sourceTree = "<group>";
+		};
+		D7E8FF482987CE150026BA76 /* objc-msgenv-NSDNC.git */ = {
+			isa = PBXGroup;
+			children = (
+				D7E8FF4C2987CE150026BA76 /* IPSME_MsgEnv.h */,
+				D7E8FF4A2987CE150026BA76 /* IPSME_MsgEnv.m */,
+			);
+			path = "objc-msgenv-NSDNC.git";
+			sourceTree = "<group>";
+		};
+		D7E8FF4E2987CFBA0026BA76 /* cpp-msg_cache-dedup.git */ = {
+			isa = PBXGroup;
+			children = (
+				D7E8FF4F2987CFBA0026BA76 /* msg_cache-dedup.h */,
+				D7E8FF502987CFBA0026BA76 /* msg_cache-dedup.cpp */,
+			);
+			path = "cpp-msg_cache-dedup.git";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D7B49FBB271D71C2002E6966 /* objc-nativews */ = {
+		D7E8FF3D2987CC680026BA76 /* objc-reflector-ws-mac */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D7B49FC3271D71C2002E6966 /* Build configuration list for PBXNativeTarget "objc-nativews" */;
+			buildConfigurationList = D7E8FF452987CC680026BA76 /* Build configuration list for PBXNativeTarget "objc-reflector-ws-mac" */;
 			buildPhases = (
-				D7B49FB8271D71C2002E6966 /* Sources */,
-				D7B49FB9271D71C2002E6966 /* Frameworks */,
-				D7B49FBA271D71C2002E6966 /* CopyFiles */,
+				D7E8FF3A2987CC680026BA76 /* Sources */,
+				D7E8FF3B2987CC680026BA76 /* Frameworks */,
+				D7E8FF3C2987CC680026BA76 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = "objc-nativews";
-			productName = "objc-nativews";
-			productReference = D7B49FBC271D71C2002E6966 /* objc-nativews */;
+			name = "objc-reflector-ws-mac";
+			productName = "objc-reflector-ws-mac";
+			productReference = D7E8FF3E2987CC680026BA76 /* objc-reflector-ws-mac */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		D7B49FB4271D71C2002E6966 /* Project object */ = {
+		D7E8FF362987CC680026BA76 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1340;
-				ORGANIZATIONNAME = "Root Interface";
-				TargetAttributes = {
-					D7B49FBB271D71C2002E6966 = {
-						CreatedOnToolsVersion = 10.3;
-					};
-				};
+				LastUpgradeCheck = 1410;
 			};
-			buildConfigurationList = D7B49FB7271D71C2002E6966 /* Build configuration list for PBXProject "objc-nativews" */;
-			compatibilityVersion = "Xcode 9.3";
+			buildConfigurationList = D7E8FF392987CC680026BA76 /* Build configuration list for PBXProject "objc-reflector-ws-mac" */;
+			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = D7B49FB3271D71C2002E6966;
-			productRefGroup = D7B49FBD271D71C2002E6966 /* Products */;
+			mainGroup = D7E8FF352987CC680026BA76;
+			productRefGroup = D7E8FF3F2987CC680026BA76 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D7B49FBB271D71C2002E6966 /* objc-nativews */,
+				D7E8FF3D2987CC680026BA76 /* objc-reflector-ws-mac */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		D7B49FB8271D71C2002E6966 /* Sources */ = {
+		D7E8FF3A2987CC680026BA76 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D76C6EDD28AED42400742151 /* IPSME_MsgEnv.m in Sources */,
-				D76C6EE128AED71500742151 /* msg_cache-dedup.cpp in Sources */,
-				D7B49FC0271D71C2002E6966 /* main.mm in Sources */,
+				D7E8FF532987CFE90026BA76 /* main.mm in Sources */,
+				D7E8FF4D2987CE150026BA76 /* IPSME_MsgEnv.m in Sources */,
+				D7E8FF512987CFBA0026BA76 /* msg_cache-dedup.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		D7B49FC1271D71C2002E6966 /* Debug */ = {
+		D7E8FF432987CC680026BA76 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -187,7 +180,6 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -210,7 +202,7 @@
 					"$(SRCROOT)/websocketpp/",
 					"$(SRCROOT)/asio-1.20.0/include",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -218,14 +210,13 @@
 			};
 			name = Debug;
 		};
-		D7B49FC2271D71C2002E6966 /* Release */ = {
+		D7E8FF442987CC680026BA76 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -251,7 +242,6 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -268,14 +258,14 @@
 					"$(SRCROOT)/websocketpp/",
 					"$(SRCROOT)/asio-1.20.0/include",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
 			};
 			name = Release;
 		};
-		D7B49FC4271D71C2002E6966 /* Debug */ = {
+		D7E8FF462987CC680026BA76 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
@@ -284,7 +274,7 @@
 			};
 			name = Debug;
 		};
-		D7B49FC5271D71C2002E6966 /* Release */ = {
+		D7E8FF472987CC680026BA76 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
@@ -296,25 +286,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D7B49FB7271D71C2002E6966 /* Build configuration list for PBXProject "objc-nativews" */ = {
+		D7E8FF392987CC680026BA76 /* Build configuration list for PBXProject "objc-reflector-ws-mac" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D7B49FC1271D71C2002E6966 /* Debug */,
-				D7B49FC2271D71C2002E6966 /* Release */,
+				D7E8FF432987CC680026BA76 /* Debug */,
+				D7E8FF442987CC680026BA76 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D7B49FC3271D71C2002E6966 /* Build configuration list for PBXNativeTarget "objc-nativews" */ = {
+		D7E8FF452987CC680026BA76 /* Build configuration list for PBXNativeTarget "objc-reflector-ws-mac" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D7B49FC4271D71C2002E6966 /* Debug */,
-				D7B49FC5271D71C2002E6966 /* Release */,
+				D7E8FF462987CC680026BA76 /* Debug */,
+				D7E8FF472987CC680026BA76 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = D7B49FB4271D71C2002E6966 /* Project object */;
+	rootObject = D7E8FF362987CC680026BA76 /* Project object */;
 }
