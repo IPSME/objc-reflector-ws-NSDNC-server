@@ -110,7 +110,7 @@ bool handler_NSString(NSString* nsstr_msg, NSString* object)
 	{
 		NSLog(@"handler_NSString: *DUP |<- nsdnc -- [%@]", nsstr_msg);
 			
-		// it's a duplicate, but drop it, it needs to reflect to other websockets
+		// it's a duplicate, but don't drop it, it needs to reflect to other websockets
 		//return;
 	}
 	else NSLog(@"handler_NSString: ws <- nsdnc -- [%@]", nsstr_msg);
