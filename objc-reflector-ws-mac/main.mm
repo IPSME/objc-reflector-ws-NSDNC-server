@@ -101,9 +101,9 @@ void on_message(t_ws_server* server, t_connection_hdl hdl, t_message_ptr msg)
 //----------------------------------------------------------------------------------------------------------------
 #pragma mark ws <- nsdnc
 
-bool handler_NSString(NSString* nsstr_msg, NSString* object)
+bool handler_NSString_(id id_msg, NSString* nsstr_msg)
 {
-	// NSLog(@"handler_: %@", nsstr_msg);
+	// NSLog(@"handler_NSString_: %@", nsstr_msg);
 	
 	// one way doors are only present when publishing messages out to clients
 	//	if ((NULL != object) && (YES == [object isEqualToString:g_uuid_ID.UUIDString]) ) {
@@ -117,7 +117,7 @@ bool handler_NSString(NSString* nsstr_msg, NSString* object)
 	
 	g_duplicate.cache(str_msg, t_entry_context(30s));
 	
-	NSLog(@"handler_NSString: ws <- nsdnc -- [%@]", nsstr_msg);
+	NSLog(@"handler_NSString_: ws <- nsdnc -- [%@]", nsstr_msg);
 
 	try {
 		websocketpp::lib::error_code ec;
@@ -128,7 +128,7 @@ bool handler_NSString(NSString* nsstr_msg, NSString* object)
 		return true;
 	}
 	catch (websocketpp::exception const & e) {
-		std::cout << "handler_NSString: Echo failed because: " << "(" << e.what() << ")" << std::endl;
+		std::cout << "handler_NSString_: Echo failed because: " << "(" << e.what() << ")" << std::endl;
 
 		return false;
 	}
@@ -136,11 +136,23 @@ bool handler_NSString(NSString* nsstr_msg, NSString* object)
 
 void handler_(id id_msg, NSString* object)
 {
-	if ([id_msg isKindOfClass:[NSString class]] && handler_NSString(id_msg, object))
+	@try {
+		if ([id_msg isKindOfClass:[NSString class]] && handler_NSString_(id_msg, id_msg))
+			return;
+	}
+	@catch (id ue) {
+		if ([ue isKindOfClass:[NSException class]]) {
+			NSException* e= ue;
+			NSLog(@"ERR: error is message execution: %@", [e reason]);
+		}
+		else
+			NSLog(@"ERR: error is message execution");
+		
 		return;
+	}
 	
 	// drop silently ...
-	NSLog(@"handler_: DROP! |<- nsdnc -- [%@]", [id_msg class]);
+	NSLog(@"handler_: DROP! %@", [id_msg class]);
 }
 
 //----------------------------------------------------------------------------------------------------------------
